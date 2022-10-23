@@ -1,3 +1,7 @@
+/* Credit for the base of this code goes to a tutorial by Board to Bits Games on youtube. Linked here: https://www.youtube.com/watch?v=7KiK0Aqtmzc
+ * Originally sourced from this tutorial, the code here is heavily modified.
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -36,9 +40,9 @@ public class betterJump : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //holdWall = !coll.holdLeftWall.Equals(coll.holdRightWall);
         holdWall = !(coll.holdLeftWall == coll.holdRightWall);
         float y = controls.Player.Movement.ReadValue<Vector2>().y;
+        //Betterjump here, essentially it controls the fall speed (gravity) of the player depending on their jump input (held vs unheld) and if they are in the "falling" portion of the jump
         if (!holdWall)
         {
             if (rb.velocity.y * Mathf.Sign(rb.gravityScale) < 0 && y > -0.9)
@@ -54,27 +58,12 @@ public class betterJump : MonoBehaviour
             {
                 rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier * downMultiplier) * Time.deltaTime * rb.gravityScale;
             }
-
-            //if (rb.velocity.y > 0)
-            //{
-            //}
-            //else
-            //{
-            //}
         }
 
         if (holdWall && rb.velocity.y < 0 && !wallJumping)
         {
             rb.velocity += Vector2.up * Physics2D.gravity.y * (wallMultiplier - 1) * Time.deltaTime * rb.gravityScale;
         }
-
-
-        //tweak 2 to something else probably!
-        //breaks wallJump (fixed)
-        //else if (holdWall && rb.velocity.y > 2 && !wallJumping && !moveScript.dashing)
-        //{
-        //    rb.velocity = new Vector2(rb.velocity.x, 0);
-        //}
     }
     private void OnEnable()
     {

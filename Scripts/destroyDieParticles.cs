@@ -4,17 +4,12 @@ using UnityEngine;
 
 public class destroyDieParticles : MonoBehaviour
 {
+    //Really simple, just calls a coroutine to wait for a certain amount of time (defined in editor prefab) to destroy particle.
     public float lifeTime;
     // Start is called before the first frame update
     void Start()
     {
         StartCoroutine(destroySelf());
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     private IEnumerator destroySelf()

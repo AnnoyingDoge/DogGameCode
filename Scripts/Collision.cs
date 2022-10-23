@@ -7,6 +7,9 @@ public class Collision : MonoBehaviour
 {
     //This is our collision script! It gives us a lot more control than using Unity's "onCollision" methods.
     //The access levels of this stuff is a lot like the movement script. We need a lot of this information elsewhere, so it's mostly public.
+    //This script is based on an idea from a Mix and Jam video on Celeste's movement. Link to video here: https://www.youtube.com/watch?v=STyY26a_dPY
+    //It doesn't use their code, but it functions similarly to their "Collision.cs" file.
+    //That can be found here: https://github.com/mixandjam/Celeste-Movement/blob/master/Assets/Scripts/Collision.cs
 
 
     public bool onGround;

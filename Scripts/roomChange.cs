@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class roomChange : MonoBehaviour
 {
+    //This script is a bit of a mess, but it handles dynamic room changes.
+    //The code itself makes everything pretty easy to set up in editor. 
+
     [Header("Exit Settings")]
     public int roomOffsetX;
     public int roomOffsetY;
@@ -12,7 +15,6 @@ public class roomChange : MonoBehaviour
 
     //Given in R,L,U,D
     public string doorDir;
-    public float fadeSpeed;
     
 
     [Header("Other Stuff")]
@@ -37,8 +39,6 @@ public class roomChange : MonoBehaviour
     public float smoothTime = 0.3f;
     private float vel = 0.0f;
 
-    //private sceneLoader sceneLoaderScript;
-    //public GameObject sceneManager;
     // Start is called before the first frame update
     void Start()
     {
@@ -66,25 +66,13 @@ public class roomChange : MonoBehaviour
 
     private void FixedUpdate()
     {
+        //this checks if we can transition, and does it if player collides with transition to next room.
         if (playerColl && !transitioning && gameObject.scene == SceneManager.GetActiveScene())
         {
             transitioning = true;
             transitionScene();
             StartCoroutine(transitionWait());
         }
-    }
-
-    private void fadeColor()
-    {
-        if (cameraColor.a < 1)
-        {
-            cameraColor = new Color(cameraColor.r, cameraColor.g, cameraColor.b, cameraColor.a + fadeSpeed);
-        }
-    }
-
-    private void unfadeColor()
-    {
-
     }
     
     private void transitionScene()
@@ -105,6 +93,7 @@ public class roomChange : MonoBehaviour
 
     IEnumerator transitionWait()
     {
+        //Wait for the player to be in a different scene than the object (new scene does not contain transition object)
         while(playerColl)
         {
             yield return null;
@@ -113,23 +102,4 @@ public class roomChange : MonoBehaviour
         transitioning = false;
     }
 
-    //private IEnumerator loadScene()
-    //{
-    //    Scene scene;
-    //    scene = SceneManager.GetSceneByName(sceneToActivate);
-    //    yield return null;
-
-    //    AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneToActivate);
-    //    asyncOperation.allowSceneActivation = false;
-    //    waiting = true;
-
-    //    while (waiting)
-    //    {
-    //        yield return null;
-    //    }
-
-    //    print(sceneToActivate);
-    //    asyncOperation.allowSceneActivation = true;
-    //    yield return null;
-    //}
 }

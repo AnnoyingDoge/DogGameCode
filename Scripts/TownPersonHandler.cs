@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class TownPersonHandler : MonoBehaviour
 {
+    //This was a test script, it probably will not be utilized in the final game.
+    //It allows the player to interact with a "TownPerson," but the dialogue interaction was not finished.
+
+
     public bool touchingPlayer;
     public bool drawPrompt;
     public bool isTalking;

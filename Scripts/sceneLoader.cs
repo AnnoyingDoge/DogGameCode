@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class sceneLoader : MonoBehaviour
 {
+    //This is our scene load/unload script.
+    //It dynamically loads nearby areas, so that the player should never have to see loading screens mid-platforming.
     public string currentScene;
     public GameObject[] roomList;
     public GameObject[] oldRoomList;
@@ -104,43 +106,6 @@ public class sceneLoader : MonoBehaviour
         unloadAreas();
     }
 
-    //public IEnumerator transitionScene()
-    //{
-    //    print(roomList.Length);
-    //    print("transition");
-    //    if (coll.transitionObject != null)
-    //    {
-    //        spawnPoint = coll.transitionObject.transform.position;
-    //    }
-    //    keepLoaded.Clear();
-    //    oldRoomList = roomList;
-
-    //    roomChange room;
-    //    string sceneName;
-    //    Scene scene;
-
-    //    while (roomList.Length == 0)
-    //    {
-    //        roomList = GameObject.FindGameObjectsWithTag("roomChange");
-    //        print("gaming");
-    //        yield return null;
-    //    }
-
-    //    foreach (GameObject obj in roomList)
-    //    {
-    //        if (obj.scene == SceneManager.GetActiveScene())
-    //        {
-    //            room = obj.GetComponent<roomChange>();
-    //            sceneName = room.sceneToActivate;
-    //            scene = SceneManager.GetSceneByName(sceneName);
-
-    //            loadArea(obj);
-
-    //            keepLoaded.Add(scene);
-    //        }
-    //    }
-    //    unloadAreas();
-    //}
     private void unloadAreas()
     {
         allScenes = SceneManager.GetAllScenes().ToList();
@@ -175,30 +140,4 @@ public class sceneLoader : MonoBehaviour
         playerObject.transform.position = spawnPoint;
         playerObject.SetActive(true);
     }
-
-    
-
-    //private IEnumerator loadScene(GameObject obj)
-    //{
-    //    roomChange room;
-    //    string sceneName;
-    //    Scene scene;
-    //    bool waiting;
-
-    //    room = obj.GetComponent<roomChange>();
-    //    sceneName = room.sceneToActivate;
-    //    scene = SceneManager.GetSceneByName(sceneName);
-    //    yield return null;
-
-    //    AsyncOperation asyncOperation = SceneManager.LoadSceneAsync("Scene3");
-    //    asyncOperation.allowSceneActivation = false;
-    //    waiting = true;
-
-    //    while (waiting)
-    //    {
-    //        yield return null;
-    //    }
-
-    //    asyncOperation.allowSceneActivation = true;
-    //}
 }

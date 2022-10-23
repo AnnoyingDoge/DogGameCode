@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class gameStart : MonoBehaviour
 {
+    //This is a start menu script. "levelToLoad" will be better defined later, once a save system is made.
     public string levelToLoad;
 
     public Vector2 spawnPoint;

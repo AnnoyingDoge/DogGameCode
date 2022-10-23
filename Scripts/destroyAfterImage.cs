@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class destroyAfterImage : MonoBehaviour
 {
+    //All this does is destroy the "afterimage" that the player has while dashing. It's kind of hack-y, but whatever.
     private SpriteRenderer sr;
     [SerializeField]
     private float fadeAmount = 0.1f;

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class dogAnimator : MonoBehaviour
 {
+    //This is a really painful animation script. It's not very well written and is certainly a work in progress.
     public SpriteRenderer spriteRenderer;
     public Rigidbody2D rb;
     public Animator anim;

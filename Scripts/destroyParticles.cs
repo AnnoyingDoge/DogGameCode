@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class destroyParticles : MonoBehaviour
 {
+    //This script is kind of... bad. It helps orient the dash particles, then destroys them after 0.1s.
     public float particleLife;
 
     private dogAnimator animationScript;
@@ -19,12 +20,6 @@ public class destroyParticles : MonoBehaviour
         particleLife = 0.5f;
         Destroy(gameObject, particleLife);
         StartCoroutine(transparencyChange());
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     IEnumerator transparencyChange()

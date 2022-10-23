@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class newMove : MonoBehaviour
 {
     //Script handling player movement.
-    //I think this script is like... objectively bad. It needs some work.
+    //I think this script is like... bad. It needs some work.
     //Nearly every float/bool here has some case where it will need to be/could be referenced from another class.
     //Thus, a lot of public stuff. Not the best implementation for sure.
 
@@ -138,55 +138,22 @@ public class newMove : MonoBehaviour
             StartCoroutine(gravityReverser());
         }
 
-        //if (Input.GetButtonDown("Jump"))
-        //{
-        //    //Jump
-        //    if (coll.onGround && canMove)
-        //    {
-        //        if (dashing)
-        //        {
-        //            PlayerRB2D.velocity += Vector2.up * yVel * Mathf.Sign(gravScale);
-        //        }
-        //        else
-        //        {
-        //            PlayerRB2D.velocity += Vector2.up * yVel * Mathf.Sign(gravScale);
-        //        }
-
-                
-                
-        //        jumping = true;
-        //    }
-        //}
         if (coll.onGround && PlayerRB2D.velocity.y == 0)
         {
             jumping = false;
         }
-
-        //if (Input.GetButtonDown("Jump") && dashing)
-        //{
-        //    //CancelDash();
-        //}
 
         if (!coll.onLeftWall && !coll.onRightWall)
         {
             playerIncomingVel = PlayerRB2D.velocity.y;
             setWallVel = true;
         }
-        //else if ((coll.onLeftWall || coll.onRightWall) && Input.GetButton("Jump") && setWallVel)
-        //{
-        //    PlayerRB2D.velocity = new Vector2(PlayerRB2D.velocity.x, playerIncomingVel);
-        //    setWallVel = false;
 
-        //}
         else
         {
             playerIncomingVel = 0;
         }
 
-        //if (Input.GetButtonDown("Jump") && !dashing && (coll.onLeftWall || coll.onRightWall) && !coll.onGround) //&& canWallJump)
-        //{
-        //    wallJump();
-        //}
 
         if (coll.onGround)
         {
@@ -197,36 +164,13 @@ public class newMove : MonoBehaviour
             canWallJump = true;
         }
 
-        //if(Input.GetButtonDown("Fire2") && canDash && (!dashing || canCancelDash)) //&& (Mathf.Abs(x) > 0 || Mathf.Abs(y) > 0))
-        //{
-        //    if(dashing)
-        //    {
-        //        canCancelDash = false;
-        //        StopCoroutine(dashRoutine);
-        //        StopCoroutine(dashParticleRoutine);
-        //        StopCoroutine(dashAfterImageRoutine);
-        //    }
-
-        //    Dash(EightDirVector);
-        //    dashParticleRoutine = StartCoroutine(dashParticles());
-        //    //can prob remove below line
-        //    canDash = false;
-        //    //Dash(new Vector2(x, y)); //new Vector3(0, 0, 0));
-        //}
         if(coll.botSpring && !springing)
         {
             springing = true;
             jumpScript.enabled = false;
             PlayerRB2D.velocity = new Vector2(0, springVel);
             StartCoroutine(springTime());
-
-            //PlayerRB2D.velocity = Vector2.zero;
-            //PlayerRB2D.velocity += new Vector2(0, springVel);
         }
-        //if(springing)
-        //{
-        //    PlayerRB2D.velocity = new Vector2(0, springVel);
-        //}
     }
 
     private void FixedUpdate()
@@ -255,6 +199,7 @@ public class newMove : MonoBehaviour
         }
     }
     #region input
+    //This converts analog stick into an 8-directional vector. Probably could be more efficient.
     private Vector2 EightDirConversion()
     {
         float EightX;
@@ -289,20 +234,18 @@ public class newMove : MonoBehaviour
     #endregion
 
     #region basic movement
+    //This method. This. Method. Is. Bad. There are too many conditionals here. It 'works' for now, but definitely WILL cause problems and needs refactoring.
     private void moveXY()
     {
         //Every. Single. Line. Is bad. Using a Lerp like this means we never really meet our desired speed. It's really silly.
         if(coll.onGround && Mathf.Abs(PlayerRB2D.velocity.x) <= speed)
         {
-            //PlayerRB2D.velocity = new Vector2(x * speed, PlayerRB2D.velocity.y);
             PlayerRB2D.velocity = Vector2.Lerp(PlayerRB2D.velocity, new Vector2(EightDirVector.x * speed, PlayerRB2D.velocity.y), speedUp);
-            //PlayerRB2D.velocity = new Vector2(x * speed, PlayerRB2D.velocity.y);
         }
         
             
         
         //fix, need to be able to "glide" onto platforms (fixed i think)
-        //grab vel before wall hit and add to player?
 
         //fix is this check on x. Don't allow player to add vel in direction of wall.
         else if (!coll.onGround && coll.onLeftWall && x > 0)
@@ -313,11 +256,13 @@ public class newMove : MonoBehaviour
         {
             PlayerRB2D.velocity = Vector2.Lerp(PlayerRB2D.velocity, new Vector2(EightDirVector.x * speed, PlayerRB2D.velocity.y), airMobilityMultiplier);
         }
+        //If we're in a wall jump, movement is restricted
         else if(bJump.wallJumping)
         {
             PlayerRB2D.velocity = Vector2.Lerp(PlayerRB2D.velocity, new Vector2(EightDirVector.x * speed, PlayerRB2D.velocity.y), wallJumpMult);
         }
 
+        //If above maximum speed, adjust speed differently than normal
         else if (Mathf.Abs(PlayerRB2D.velocity.x) > speed)
         {
             //something like this seems fun
@@ -337,7 +282,7 @@ public class newMove : MonoBehaviour
             if (dashing)
             {
                 PlayerRB2D.velocity += Vector2.up * yVel * Mathf.Sign(gravScale);
-                //cancel dash?
+                //cancel dash? (feature to add later)
             }
             else
             {
@@ -371,6 +316,7 @@ public class newMove : MonoBehaviour
         wallJumpRoutine = StartCoroutine(wallJumpCoroutine());
     }
 
+    //This isn't implemented right now, as it will only be used in certain areas (e.g. climbing up a ladder, vines)
     private void wallClimb()
     {
         float climbVal;
@@ -388,7 +334,7 @@ public class newMove : MonoBehaviour
         }
     }
 
-    //Unused method lol
+    //Unused method, left as it may be used for the 'jump cancel' later
     private void cancelWallJump()
     {
         StopCoroutine(wallJumpRoutine);
@@ -396,6 +342,7 @@ public class newMove : MonoBehaviour
         canWallJump = true;
     }
 
+    //Coroutine for walljumping 
     IEnumerator wallJumpCoroutine() //, Vector3 dashVector)
     {
         yield return new WaitForSeconds(wallJumpTime);
@@ -405,6 +352,8 @@ public class newMove : MonoBehaviour
     #endregion
 
     #region dashing
+
+    //start the dash, then call coroutine
     private void startDash()
     {
         if (canDash && (!dashing || canCancelDash)) //&& (Mathf.Abs(x) > 0 || Mathf.Abs(y) > 0))
@@ -424,6 +373,8 @@ public class newMove : MonoBehaviour
             //Dash(new Vector2(x, y)); //new Vector3(0, 0, 0));
         }
     }
+
+    //do the dash!
     private void Dash(Vector2 dashDir) //, Vector3 dashVector)
     {
         dashing = true;
@@ -474,6 +425,7 @@ public class newMove : MonoBehaviour
             StopCoroutine(dashAfterImageRoutine);
         }
     }
+    //we can cancel the dash with this if needed
     private void CancelDash()
     {
         PlayerRB2D.gravityScale = gravScale;
@@ -484,7 +436,7 @@ public class newMove : MonoBehaviour
         StopCoroutine(dashRoutine);
         StopCoroutine(dashAfterImageRoutine);
     }
-
+    //Wooo! the coroutine! it just counts the time for the dash, and sets canCancelDash for use in multiple ground dashes.
     private IEnumerator DashCoroutine() //, Vector3 dashVector)
     {
 
@@ -500,6 +452,7 @@ public class newMove : MonoBehaviour
 
         EndDash(true);
     }
+    //Generates some particles for our dash
     private IEnumerator dashParticles()
     {
         float particleTime = 0.05f * Random.Range(1.0f, 2.0f);
@@ -510,6 +463,8 @@ public class newMove : MonoBehaviour
             yield return new WaitForSeconds(particleTime);
         }
     }
+
+    //This generates the afterimage on the dash. It's kind of a cheat to do it like this.
     private IEnumerator dashAfterImage(SpriteRenderer currentSprite)
     {
         //shader that we'll use to make our afterimage look different
@@ -545,7 +500,7 @@ public class newMove : MonoBehaviour
     }
     #endregion
 
-
+    //Corountine for jumping on a spring
     private IEnumerator springTime()
     {
         yield return new WaitForSeconds(0.1f);
@@ -553,6 +508,7 @@ public class newMove : MonoBehaviour
         jumpScript.enabled = true;
     }
 
+    //Coroutine for gravity reversal.
     private IEnumerator gravityReverser()
     {
         while(dashing)
@@ -564,6 +520,7 @@ public class newMove : MonoBehaviour
         yield return null;
     }
 
+    //These last two methods go unused. The intent was to make it so the player could "freeze" in between levels, but this was scrapped.
     private void freezePlayer()
     {
         freezeVel = PlayerRB2D.velocity;

@@ -181,45 +181,6 @@ public class cameraFollow : MonoBehaviour
             topMax = resultsList.Contains(upColl);
             botMax = resultsList.Contains(downColl);
         }
-
-        //Old inefficient way of checking collisions.
-        //if (collision.gameObject.tag == ("leftMax"))
-        //{
-        //    leftMax = true;
-        //    leftColl = collision;
-        //}
-        //if (collision.gameObject.tag == ("rightMax"))
-        //{
-        //    rightMax = true;
-        //    rightColl = collision;
-        //}
-        //if (collision.gameObject.tag == ("upMax"))
-        //{
-        //    topMax = true;
-        //    upColl = collision;
-        //}
-        //if (collision.gameObject.tag == ("downMax"))
-        //{
-        //    botMax = true;
-        //    downColl = collision;
-        //}
-        //if (!resultsList.Contains(leftColl) || resultsList.Count == 0)
-        //{
-        //    leftMax = false;
-        //}
-        //if (!resultsList.Contains(rightColl) || resultsList.Count == 0)
-        //{
-        //    rightMax = false;
-        //}
-        //if (!resultsList.Contains(upColl) || resultsList.Count == 0)
-        //{
-        //    topMax = false;
-        //}
-        //if (!resultsList.Contains(downColl) || resultsList.Count == 0)
-        //{
-        //    botMax = false;
-        //}
-
     }
 
     private void clearCollisions()
