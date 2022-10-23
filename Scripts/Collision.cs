@@ -131,6 +131,7 @@ public class Collision : MonoBehaviour
         }
     }
 
+    //This is old, (mostly) unused, and bad
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.tag == ("townperson"))
