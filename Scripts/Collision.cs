@@ -82,7 +82,7 @@ public class Collision : MonoBehaviour
             downOffset = new Vector3(0, coll.bounds.extents.y, 0);
         }
 
-        //onGround = Physics2D.Raycast(transform.position, Vector2.down, distFromGround + 0.05f, groundLayer);
+        //set all the collision booleans
         onGround = Physics2D.OverlapBox(coll.bounds.center - downOffset, downBox, 0, groundLayer);
         onLeftWall = Physics2D.OverlapBox(coll.bounds.center - sideOffset, sideBox, 0, wallLayer);
         onRightWall = Physics2D.OverlapBox(coll.bounds.center + sideOffset, sideBox, 0, wallLayer);
@@ -116,28 +116,6 @@ public class Collision : MonoBehaviour
         rightOffset = new Vector3(coll.bounds.extents.x, 0, 0);
         sideOffset = new Vector3(coll.bounds.extents.x, 0, 0);
     }
-
-    //bool isGrounded()
-    //{
-    //    return Physics.Raycast(transform.position, -Vector3.up, distFromGround + 0.1f);
-    //}
-
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    if (collision.gameObject.tag == ("ground"))
-    //    {
-    //        onGround = true;
-    //    }
-    //}
-
-    //private void OnCollisionExit2D(Collision2D collision)
-    //{
-    //    //When stop colliding with ground, player is not grounded.
-    //    if (collision.gameObject.tag == ("ground"))
-    //    {
-    //        onGround = false;
-    //    }
-    //}
 
     private void OnDrawGizmos()
     {
