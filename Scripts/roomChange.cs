@@ -57,9 +57,14 @@ public class roomChange : MonoBehaviour
     {
         playerColl = Physics2D.OverlapBox(transform.position, collBox, 0, playerLayer);
         cameraBlocker.GetComponent<SpriteRenderer>().color = cameraColor;
-
+    }
+    
+    //Call camera changes after physics and position updates.
+    private void LateUpdate()
+    {
         if (gameObject.scene == SceneManager.GetActiveScene() && cam.orthographicSize != desiredCameraSize)
         {
+            //Just a note, SmoothDamp accounts for Time.deltaTime, so no need for FixedUpdate or multiplying by Time.deltaTime
             cam.orthographicSize = Mathf.SmoothDamp(cam.orthographicSize, desiredCameraSize, ref vel, smoothTime);
         }
     }
